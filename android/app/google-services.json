@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "704298952669",
+    "firebase_url": "https://field-b648a.firebaseio.com",
+    "project_id": "field-b648a",
+    "storage_bucket": "field-b648a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704298952669:android:6fbb023d9ac7319a43b834",
+        "android_client_info": {
+          "package_name": "com.beproject.plant_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704298952669-g4eg0h742fq6l7uh9fgml86a9thm4uds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8xVM6dLgD0x33hJ1gXc4ZunduHbLnCtA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704298952669-g4eg0h742fq6l7uh9fgml86a9thm4uds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
