@@ -5,268 +5,285 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:convert';
 
-
 class sensordata extends StatefulWidget {
   @override
   _sensordataState createState() => _sensordataState();
 }
 
 class _sensordataState extends State<sensordata> {
+  var temp;
+  var hum;
+  var light;
+  var moisture;
 
-  var temp ;
-  var hum ;
-  var light  ;
-  var moisture ;
   bool pressed = false;
-  bool on=false;
-  bool off=false;
+  bool on = false;
+  bool off = false;
   Color _iconcolor = Colors.black;
+
   //data is already defined in data.dart file.
 
-  void getdata()async{
-    //final data1 = FirebaseDatabase.instance.reference().child("humidity");
-    //final data2 = FirebaseDatabase.instance.reference().child("temperature");
-    //humidity = dbref.child("DHT11").child("Humidity");
+  void getdata() async {
     final dbref = FirebaseDatabase.instance.reference();
 
     // once() function gets the data all at once
-
     await dbref.once().then((DataSnapshot snapshot) {
       //var keys = snapshot.value.keys;
-      var  values = snapshot.value;
+      var values = snapshot.value;
       temp = values["temperature"];
       hum = values["humidity"];
       moisture = values["soil_moisture"];
       light = values["light_value"];
-    }
-
-    );
-    setState(() {
-      pressed = true;//if this true then only display value
+      /*
+      if (values!=null){
+        print(values);
+      }*/
     });
+    setState(() {
+      pressed = true; //if this true then only display value
+    });
+
   }
 
-  void refresh(){
+  void refresh() {
     getdata();
   }
 
-  void ondata(){
+  void ondata() {
     final dbref = FirebaseDatabase.instance.reference();
-    dbref.update(
-        {
-          "pump":"ON",
-        }
-        );
-    setState(() {
-      on=true;
+    dbref.update({
+      "pump": "ON",
     });
-
+    setState(() {
+      on = true;
+    });
   }
 
-  void offdata(){
+  void offdata() {
     final dbref = FirebaseDatabase.instance.reference();
-    dbref.update(
-        {
-          "pump":"OFF",
-        }
-    );
-    setState(() {
-      off=true;
+    dbref.update({
+      "pump": "OFF",
     });
-
+    setState(() {
+      off = true;
+    });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /*
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Sensor data",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-
-        ),
+        title: Text(
+          "Sensor data",
+          textAlign: TextAlign.center,
+          style: TextStyle(),
         ),
         backgroundColor: Colors.black,
-      ),
+      ),*/
       body: Container(
-        color: Colors.blueGrey,
+        color: Colors.black87,
         child: Padding(
           padding: EdgeInsets.all(2),
           child: Column(
-
             children: <Widget>[
               SizedBox(height: 40),
+              Padding(
+                padding: EdgeInsets.only(left: 10, bottom: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.arrowAltCircleLeft,
+                        color: Colors.white,
+                      ),
+                      iconSize: 33,
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Container(
-                    width:160 ,
-                    height: 160,
+                    width: 140,
+                    height: 140,
                     decoration: BoxDecoration(
-                      borderRadius:BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12),
                       color: Colors.redAccent,
                     ),
                     child: Column(
                       children: <Widget>[
                         IconButton(
                           icon: Icon(FontAwesomeIcons.thermometerFull),
-                          iconSize: 100,
-                          onPressed: (){
-
-                          },
+                          iconSize: 68,
+                          onPressed: () {},
                         ),
-
                         SizedBox(height: 10),
-                        pressed ?
-                        Text(
-                          temp.toString(), //converting the values to string, cuz it's in integer.
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Qaundo",
-                              fontSize: 20
-
-                          ),
-                        ) :
-                            Text(
-                              "No value",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Qaundo",
-                                  fontSize: 20
-
+                        pressed
+                            ? Text(
+                                temp.toString(),
+                                //converting the values to string, cuz it's in integer.
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "Qaundo",
+                                    fontSize: 20),
+                              )
+                            : Text(
+                                "No value",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "Qaundo",
+                                    fontSize: 20),
                               ),
-                            ),
                       ],
                     ),
                   ),
-
                   Container(
-                    width:160 ,
-                    height: 160,
+                    width: 1,
+                    color: Colors.white,
+                    height: 120,
+                  ),
+                  Container(
+                    width: 140,
+                    height: 140,
                     decoration: BoxDecoration(
-                      borderRadius:BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12),
                       color: Colors.purpleAccent,
                     ),
                     child: Column(
                       children: <Widget>[
                         IconButton(
                           icon: Icon(FontAwesomeIcons.tint),
-                          iconSize: 100,
-                          onPressed: (){
-
-                          },
+                          iconSize: 68,
+                          onPressed: () {},
                         ),
-
                         SizedBox(height: 10),
-                        pressed ?
-                        Text(
-                          hum.toString(), //converting the values to string, cuz it's in integer.
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Qaundo",
-                              fontSize: 20
-
-                          ),
-                        ) :
-                            Text(
-                              "No value",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Qaundo",
-                                  fontSize: 20
-
+                        pressed
+                            ? Text(
+                                hum.toString(),
+                                //converting the values to string, cuz it's in integer.
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "Qaundo",
+                                    fontSize: 20),
+                              )
+                            : Text(
+                                "No value",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "Qaundo",
+                                    fontSize: 20),
                               ),
-                            ),
                       ],
                     ),
                   )
                 ],
               ),
-
-              SizedBox(height: 40),
+              SizedBox(height: 15,),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      height: 1,
+                      width: 150,
+                      color: Colors.white,
+                    ),
+                    Container(
+                      height: 1,
+                      width: 150,
+                      color: Colors.white,
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Container(
-                    width:160 ,
-                    height: 160,
+                    width: 140,
+                    height: 140,
                     decoration: BoxDecoration(
-                      borderRadius:BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12),
                       color: Colors.indigo,
                     ),
                     child: Column(
                       children: <Widget>[
                         IconButton(
                           icon: Icon(FontAwesomeIcons.solidSun),
-                          iconSize: 100,
-                          onPressed: (){
-                          },
+                          iconSize: 68,
+                          onPressed: () {},
                         ),
-
                         SizedBox(height: 10),
-                        pressed ?
-                        Text(
-                          light.toString(),
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: "Qaundo",
-                              fontSize: 20
-                          ),
-                        ) :
-                            Text(
-                              "No value",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Qaundo",
-                                  fontSize: 20
-                              ),
-                            )
+                        pressed
+                            ? Text(
+                                light.toString(),
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "Qaundo",
+                                    fontSize: 20),
+                              )
+                            : Text(
+                                "No value",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "Qaundo",
+                                    fontSize: 20),
+                              )
                       ],
                     ),
                   ),
-
                   Container(
-                    width:160 ,
-                    height: 160,
+                    width: 1,
+                    color: Colors.white,
+                    height: 120,
+                  ),
+                  Container(
+                    width: 140,
+                    height: 140,
                     decoration: BoxDecoration(
-                      borderRadius:BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12),
                       color: Colors.pinkAccent,
                     ),
                     child: Column(
                       children: <Widget>[
                         IconButton(
                           icon: Icon(FontAwesomeIcons.shower),
-                          iconSize: 100,
-                          onPressed: (){
-                          },
+                          iconSize: 68,
+                          onPressed: () {},
                         ),
                         SizedBox(height: 10),
-                        pressed ?
-                        Text(
-                          moisture.toString(),
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Qaundo",
-                            fontSize: 20
-                          ),
-                        ) :
-                            Text(
-                              "No value",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Qaundo",
-                                  fontSize: 20
-                              ),
-                            )
+                        pressed
+                            ? Text(
+                                moisture.toString(),
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "Qaundo",
+                                    fontSize: 20),
+                              )
+                            : Text(
+                                "No value",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "Qaundo",
+                                    fontSize: 20),
+                              )
                       ],
                     ),
                   )
@@ -281,33 +298,31 @@ class _sensordataState extends State<sensordata> {
                     minWidth: 50,
                     child: RaisedButton(
                       child: Text("Get values",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: "Quando",
-                        )
-                      ),
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: "Quando",
+                          )),
                       color: Colors.black,
                       elevation: 4.0,
                       textColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(12.0),
+                        borderRadius: new BorderRadius.circular(12.0),
                       ),
-                      onPressed: (){
+                      onPressed: () {
                         getdata();
                       },
                     ),
                   ),
-
                   ButtonTheme(
                     height: 50,
                     minWidth: 50,
                     child: RaisedButton(
-                      child: Text("Refresh",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontFamily: "Quando",
-
-                            ),
+                      child: Text(
+                        "Refresh",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: "Quando",
+                        ),
                       ),
 
                       color: Colors.black,
@@ -315,68 +330,79 @@ class _sensordataState extends State<sensordata> {
                       textColor: Colors.white,
                       //to round the buttons
                       shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(12.0),
-                          /*
+                        borderRadius: new BorderRadius.circular(12.0),
+                        /*
                           side: BorderSide(
                               color: Colors.black,
                               width: 5,
                           )*/
                       ),
-                      onPressed: (){
+                      onPressed: () {
                         refresh();
                       },
                     ),
                   ),
                 ],
               ),
-                SizedBox(height: 20,),
-                Container(
-                  width:160 ,
-                  height: 160,
-                  decoration: BoxDecoration(
-                    borderRadius:BorderRadius.circular(12),
-                    color: Colors.cyanAccent,
-                  ),
-                  child: Center(
-                    child: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.cloudShowersHeavy,
-                        color: _iconcolor,
-                      ),
-                      onPressed: (){
-                      },
-                      iconSize: 100,
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: 160,
+                height: 160,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.white,
+                ),
+                child: Center(
+                  child: IconButton(
+                    icon: Icon(
+                      FontAwesomeIcons.cloudShowersHeavy,
+                      color: _iconcolor,
                     ),
+                    onPressed: () {},
+                    iconSize: 100,
                   ),
                 ),
-
+              ),
+              SizedBox(height: 20,),
               Container(
                 alignment: Alignment.center,
                 child: Center(
-
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                          FlatButton(
-                            child: Text("ON"),
-                            color: Colors.black,
-                            textColor: Colors.white,
-                            onPressed: (){
-                              ondata();
-                              setState(() {
-                                _iconcolor = Colors.green;
-                              });
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                      SizedBox(width: 20,),
+                      FlatButton(
+                        child: Text("ON"),
+                        color: Colors.black,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          ondata();
+                          setState(() {
+                            _iconcolor = Colors.green;
+                          });
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        height: 20,
+                        width: 1,
+                        color: Colors.white,
+
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
                       FlatButton(
                         child: Text("OFF"),
                         color: Colors.black,
                         textColor: Colors.white,
-                        onPressed: (){
+                        onPressed: () {
                           offdata();
                           setState(() {
                             _iconcolor = Colors.red;
@@ -390,15 +416,10 @@ class _sensordataState extends State<sensordata> {
                   ),
                 ),
               )
-
-
             ],
           ),
-
-
         ),
       ),
     );
   }
 }
-

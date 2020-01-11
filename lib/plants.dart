@@ -9,7 +9,6 @@ class Plant_list extends StatefulWidget {
 }
 
 class _Plant_listState extends State<Plant_list> {
-
   List<String> images = [
     "images/tomato.jpg",
     "images/peach.jpg",
@@ -17,22 +16,36 @@ class _Plant_listState extends State<Plant_list> {
     "images/apple.jpg",
   ];
 
-List<String> des = [
-  "Tomato is red in color",
-  "Peach is yellow in color",
-  "grapes is green in color",
-  "Apple is red in color",
-];
+  List<String> des = [
+    "Tomato is red in color",
+    "Peach is yellow in color",
+    "grapes is green in color",
+    "Apple is red in color",
+  ];
+
+  final gradient = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      stops: [
+        0.1,
+        0.4,
+        0.5
+      ],
+      colors: [
+        Colors.blue,
+        Colors.cyan,
+        Colors.cyanAccent,
+      ]);
 
   //creating a custom  card for each plant
-Widget customcard(String plant_name,String image, String des){
+  Widget customcard(String plant_name, String image, String des) {
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 20.0,
         horizontal: 30.0,
       ),
       child: InkWell(
-        onTap: (){
+        onTap: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
             // in changelog 1 we will pass the langname name to ther other widget class
             // this name will be used to open a particular JSON file
@@ -41,11 +54,14 @@ Widget customcard(String plant_name,String image, String des){
           ));
         },
         child: Material(
-          color: Colors.redAccent,
-
+          //color: Color.fromRGBO(20, 20, 120 , 0.1),
           elevation: 10.0,
           borderRadius: BorderRadius.circular(25.0),
           child: Container(
+            decoration: BoxDecoration(
+              gradient: gradient,
+              borderRadius: BorderRadius.circular(30),
+            ),
             child: Column(
               children: <Widget>[
                 Padding(
@@ -86,14 +102,14 @@ Widget customcard(String plant_name,String image, String des){
                   child: Text(
                     des,
                     style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.black,
-                        fontFamily: "Alike"
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontFamily: "Alike",
+                      fontWeight: FontWeight.bold,
                     ),
                     maxLines: 5,
                     textAlign: TextAlign.justify,
                   ),
-
                 ),
               ],
             ),
@@ -103,61 +119,62 @@ Widget customcard(String plant_name,String image, String des){
     );
   }
 
+  final horizontaldivider = Container(
+    height: 1,
+    width: 100,
+    color: Colors.white,
+  );
 
   @override
-  /*
-  Color gradientStart = Colors.deepPurple[700]; //Change start gradient color here
-  Color gradientEnd = Colors.purple[500]; //Change end gradient color here
-*/
-
-@override
-Widget build(BuildContext context) {
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitDown, DeviceOrientation.portraitUp
-  ]);
-  return Scaffold(
-    appBar: AppBar(
-      elevation: 3.0,
-      centerTitle: true,
-      title: Center(
-        child: Text(
-          "PlantAPI",
-          style: TextStyle(
-            fontFamily: "Quando",
-          ),
+  Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+    return Scaffold(
+      body: new Container(
+        color: Colors.black87,
+        child: ListView(
+          children: <Widget>[
+            //passing json file_name in the function parameters along with images and description
+            SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                    iconSize: 30,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+            customcard("Tomato", images[0], des[0]),
+            Padding(
+              padding: const EdgeInsets.only(left: 50, right: 50),
+              child: horizontaldivider,
+            ),
+            customcard("Peach", images[1], des[1]),
+            Padding(
+              padding: const EdgeInsets.only(left: 50, right: 50),
+              child: horizontaldivider,
+            ),
+            customcard("Grapes", images[2], des[2]),
+            Padding(
+              padding: const EdgeInsets.only(left: 50, right: 50),
+              child: horizontaldivider,
+            ),
+            customcard("Apple", images[3], des[3]),
+          ],
         ),
       ),
-
-      backgroundColor: Colors.black,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: (){
-          Navigator.of(context).pop();
-        },
-      ),
-    ),
-    body: new Container(
-      color: Colors.black87,
-      /*
-      decoration: new BoxDecoration(
-        gradient: new LinearGradient(colors: [gradientStart, gradientEnd],
-            begin: const FractionalOffset(0.5, 0.0),
-            end: const FractionalOffset(0.0, 0.5),
-            stops: [0.0,1.0],
-            tileMode: TileMode.clamp
-        ),
-      ),*/
-
-      child:ListView(
-        children: <Widget>[
-          //passing json file_name in the function parameters along with images and description
-          customcard("Tomato", images[0], des[0]),
-          customcard("Peach", images[1], des[1]),
-          customcard("Grapes", images[2], des[2]),
-          customcard("Apple", images[3], des[3]),
-        ],
-      ),
-    ),
-  );
-}
+    );
+  }
 }

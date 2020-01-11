@@ -1,7 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
+import'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class get_info extends StatelessWidget {
   String plant_name;
@@ -17,7 +19,7 @@ class get_info extends StatelessWidget {
       assetload = "assets/grapes.json";
     } else if (plant_name == "Peach") {
       assetload = "assets/peach.json";
-    } else {
+    } else if(plant_name == "Tomato"){
       assetload = "assets/tomato.json";
     }
   }
@@ -73,26 +75,50 @@ class _plantpageState extends State<plantpage> {
     }else if (plant_image=="Linux"){
       imageload = "images/linux.png";
     }
-
   }*/
+  final gradient = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      stops: [
+        0.1,
+        0.4,
+        0.5
+      ],
+      colors: [
+        Colors.blue,
+        Colors.cyan,
+        Colors.cyanAccent,
+      ]);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /*
       appBar: AppBar(
-        title: Text("info"),
+        //title: Text("info"),
+        backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pushReplacementNamed("/plants");
           },
         ),
-      ),
+      ),*/
       body: Container(
+        color: Colors.black87,
+        padding: EdgeInsets.only(left:4, right: 4),
         child: Padding(
-          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+          padding: EdgeInsets.only(left: 6.0, right: 6.0, top: 50),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              IconButton(
+                onPressed: (){
+                  Navigator.of(context).pushReplacementNamed("/plants");
+              },
+                icon: Icon(FontAwesomeIcons.arrowAltCircleLeft),
+                color: Colors.white,
+                iconSize: 33,
+              ),
               SizedBox(height: 10),
               Container(
                 height: 30,
@@ -100,9 +126,7 @@ class _plantpageState extends State<plantpage> {
                 alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
                   color: Colors.black,
-                  gradient: new LinearGradient(
-                    colors: [Colors.red, Colors.redAccent],
-                  ),
+                  gradient: gradient,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -116,7 +140,7 @@ class _plantpageState extends State<plantpage> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 25,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontFamily: "satisfy",
                       ),
                     ),
@@ -127,10 +151,10 @@ class _plantpageState extends State<plantpage> {
               Flexible(
                 flex: 3,
                 child: Container(
-                  color: Colors.white,
                   child: Text(
                     mydata[0][1.toString()],
                     style: TextStyle(
+                      color: Colors.white,
                       fontFamily: "Quando",
                       fontSize: 16,
                     ),
@@ -141,13 +165,10 @@ class _plantpageState extends State<plantpage> {
                 height: 10,
               ),
               Container(
-                height: 30,
                 width: 120,
                 alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
-                  gradient: new LinearGradient(
-                    colors: [Colors.red, Colors.deepOrangeAccent],
-                  ),
+                  gradient: gradient,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -157,7 +178,7 @@ class _plantpageState extends State<plantpage> {
                       "Fertilizers :",
                       style: TextStyle(
                         fontSize: 25,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontFamily: "Satisfy",
                       ),
                     ),
@@ -168,15 +189,16 @@ class _plantpageState extends State<plantpage> {
               Flexible(
                 flex: 3,
                 child: Container(
-                  color: Colors.white,
                   child: Column(
                     //place the text at the start of the column i.e to extreme left
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Text(
                         mydata[1][1.toString()],
                         textAlign: TextAlign.left,
                         style: TextStyle(
+                          color: Colors.white,
                           fontFamily: "Quando",
                           fontSize: 16,
                         ),
@@ -185,6 +207,7 @@ class _plantpageState extends State<plantpage> {
                         mydata[1][2.toString()],
                         textAlign: TextAlign.left,
                         style: TextStyle(
+                          color: Colors.white,
                           fontFamily: "Quando",
                           fontSize: 16,
                         ),
@@ -192,6 +215,7 @@ class _plantpageState extends State<plantpage> {
                       Text(
                         mydata[1][3.toString()],
                         style: TextStyle(
+                          color: Colors.white,
                           fontFamily: "Quando",
                           fontSize: 16,
                         ),
@@ -200,15 +224,14 @@ class _plantpageState extends State<plantpage> {
                   ),
                 ),
               ),
+              SizedBox(height: 10,),
               Container(
                 height: 30,
                 width: 180,
                 alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
                   color: Colors.black,
-                  gradient: new LinearGradient(
-                    colors: [Colors.red, Colors.deepOrangeAccent],
-                  ),
+                  gradient: gradient,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -218,7 +241,7 @@ class _plantpageState extends State<plantpage> {
                       "Types of diseases :",
                       style: TextStyle(
                         fontSize: 25,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontFamily: "Satisfy",
                       ),
                     ),
@@ -227,16 +250,18 @@ class _plantpageState extends State<plantpage> {
               ),
               SizedBox(height: 10),
               Container(
-                color: Colors.white,
+
                 child: Column(
                   //place the text at the start of the column i.e to extreme left
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,//fits the content of column according to it's size.
                   children: <Widget>[
                     SizedBox(height: 10),
                     Text(
                       mydata[2][1.toString()],
                       textAlign: TextAlign.left,
                       style: TextStyle(
+                        color: Colors.white,
                         fontFamily: "Quando",
                         fontSize: 16,
                       ),
@@ -251,9 +276,7 @@ class _plantpageState extends State<plantpage> {
                 alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
                   color: Colors.black,
-                  gradient: new LinearGradient(
-                    colors: [Colors.red, Colors.redAccent],
-                  ),
+                  gradient: gradient,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -267,7 +290,7 @@ class _plantpageState extends State<plantpage> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 25,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontFamily: "satisfy",
                       ),
                     ),
@@ -276,7 +299,7 @@ class _plantpageState extends State<plantpage> {
               ),
               SizedBox(height: 10),
               Container(
-                color: Colors.white,
+
                 child: Column(
                   //place the text at the start of the column i.e to extreme left
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,6 +308,7 @@ class _plantpageState extends State<plantpage> {
                       mydata[3][1.toString()],
                       textAlign: TextAlign.left,
                       style: TextStyle(
+                        color: Colors.white,
                         fontFamily: "Quando",
                         fontSize: 16,
                       ),

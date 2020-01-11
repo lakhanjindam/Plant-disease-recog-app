@@ -30,6 +30,7 @@ dependencies:
   firebase_auth:
   font_awesome_flutter:
   firebase_database:
+  auto_size_text:
 
 
 dev_dependencies:
